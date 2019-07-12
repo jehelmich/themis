@@ -20,9 +20,9 @@ READ = "read"
 READING = "reading"
 TO_READ = "to_read"
 
-TITLE = "title"
-AUTHOR = "author"
-INFO = "info"
+TITLE = "TITLE"
+AUTHOR = "AUTHOR"
+INFO = "INFO"
 
 ADD = "add"
 FIND = "find"
@@ -32,14 +32,19 @@ def test(arg):
     print("Hello " + arg)
 
 # Find by title in any of the lists of files
-def find(query, category="title"):
-    query = query.lower() # make lowercase for better comparison
-    category = category.lower()
-    result = []
-    result.extend(find_in_file(READ_FILE, query, category))
-    result.extend(find_in_file(READING_FILE, query, category))
-    result.extend(find_in_file(TO_READ_FILE, query, category))
-    return(result)
+def find(query, category="TITLE"):
+    db = open_db()
+
+    print(db.loc[db[category].str.contains(query, case=False)])
+
+
+    # query = query.lower() # make lowercase for better comparison
+    # category = category.lower()
+    # result = []
+    # result.extend(find_in_file(READ_FILE, query, category))
+    # result.extend(find_in_file(READING_FILE, query, category))
+    # result.extend(find_in_file(TO_READ_FILE, query, category))
+    # return(result)
 
 
 def map_category(category):
@@ -100,9 +105,10 @@ def add(file, title, author, info, rating=5):
             print(file + " not supported as list.")
 
 def open_db():
+    # TODO: Find way to keep changes in sync without re-loading file every time.
     database = pandas.read_csv(DATABASE_FILE)
-    print(database)        
-    
+    # print(database)        
+    return database
 
 if __name__ == '__main__':
     if (len(sys.argv) > 1):
