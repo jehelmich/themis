@@ -2,12 +2,15 @@
 import sys
 import csv
 import datetime
+import pandas
 
 # Could run this project under the title Themis, titaness of divine law and order
 # Symbol is Bronze sword
 # TODO: Add move feature for entries
 # TODO: Add proper logging
 # TODO: Devise good success codes and feedback for web service compatibility
+
+DATABASE_FILE = "db.csv"
 
 READ_FILE = "read.csv"
 READING_FILE = "reading.csv"
@@ -96,6 +99,10 @@ def add(file, title, author, info, rating=5):
         else:
             print(file + " not supported as list.")
 
+def open_db():
+    database = pandas.read_csv(DATABASE_FILE)
+    print(database)        
+    
 
 if __name__ == '__main__':
     if (len(sys.argv) > 1):
@@ -122,6 +129,9 @@ if __name__ == '__main__':
         elif (method == MOVE):
             print("Move method")
             # initiate move method
+        elif (method == "open_db"):
+            print("Open Database")
+            open_db()
         else:
             # No method matched. Issue response of failure.
             print("Method name did not match any entry.")
