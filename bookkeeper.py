@@ -6,7 +6,7 @@ import pandas
 
 # Could run this project under the title Themis, titaness of divine law and order
 # Symbol is Bronze sword
-# TODO: Add move feature for entries
+# TODO: Add move feature for entries (theoretically requires way to index)
 # TODO: Add proper logging
 # TODO: Devise good success codes and feedback for web service compatibility
 
@@ -27,6 +27,8 @@ INFO = "INFO"
 ADD = "add"
 FIND = "find"
 MOVE = "move"
+
+SHAPE_ROW_COUNT_INDEX = 0
 
 def test(arg):
     print("Hello " + arg)
@@ -57,6 +59,7 @@ def map_category(category):
 
 def add(state, title, author, info, rating=5):
 
+
     db = open_db()
     # Add entry to db if not already existing
 
@@ -68,12 +71,32 @@ def add(state, title, author, info, rating=5):
     # Info and rating do not matter.
 
     # Matches all entries in category.
-    # case=False makes matches case insensitive.
-    results = db.loc[db[TITLE].str.upper().equals(title)]
-    print(results)
-    return(results)
+    # lower() works, would rather use casefold, though does not work.
+    matches = db[(db[TITLE].str.lower() == title.lower())&(db[AUTHOR].str.lower() == author.lower())]
+    match_count = matches.shape[SHAPE_ROW_COUNT_INDEX]
+
+    if (match_count <= 0):
+        print("No matches found.")
+        print("Proceed to add content to Database")
+        db_line = [title, author, info, rating, "", state]
+        print("Line content is " + str(db_line))
+        add_to_db(db_line)
+        print("Content added to Database")
+    else:
+        print("Matching entries found")
+        print("Not proceeding to add content")
+        print("Matches found:")
+        print(matches)
 
 
+# Adds a given array line to the database.
+# Currently simply uses the size and content of the provided array
+# and adds it to the CSV file.
+def add_to_db(content):
+    # TODO: Refactor to using dictionaries to avoid confusion with database in the future
+    with open(DATABASE_FILE, 'a') as f:
+        writer = csv.writer(f)
+        writer.writerow(content)
 
 def open_db():
     # TODO: Find way to keep changes in sync without re-loading file every time.
