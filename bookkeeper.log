@@ -8,3 +8,29 @@
 26/07/2019 19:53:38 root - INFO - Arguments are: 
 26/07/2019 19:53:38 root - INFO - ['./bookkeeper.py', 'add', 'READ', 'The bullet journal Method', 'Ryder caroll', 'Test']
 26/07/2019 19:53:38 root - INFO - Selected method ADD
+26/07/2019 19:57:47 root - INFO - Bookkeeper started.
+26/07/2019 19:57:47 root - INFO - Number of arguments: 3
+26/07/2019 19:57:47 root - INFO - Arguments are: 
+26/07/2019 19:57:47 root - INFO - ['./bookkeeper.py', 'find', 'bullet']
+26/07/2019 19:57:47 root - INFO - Selected method FIND
+26/07/2019 19:57:47 root - INFO - Find method launched
+26/07/2019 19:57:47 root - INFO - DB loaded
+26/07/2019 19:57:47 root - INFO - Loading matching results for category TITLE with query bullet
+26/07/2019 19:57:47 root - INFO - Results loaded.
+26/07/2019 19:57:47 root - INFO -                        TITLE        AUTHOR  ...   YEAR (READ)  STATE
+0  The bullet journal method  Ryder Caroll  ...        2019.0   READ
+
+[1 rows x 6 columns]
+26/07/2019 19:58:27 root - INFO - Bookkeeper started.
+26/07/2019 19:58:27 root - INFO - Number of arguments: 3
+26/07/2019 19:58:27 root - INFO - Arguments are: 
+26/07/2019 19:58:27 root - INFO - ['./bookkeeper.py', 'find', 'bullet']
+26/07/2019 19:58:27 root - INFO - Selected method FIND
+26/07/2019 19:58:27 root - INFO - Find method launched
+26/07/2019 19:58:27 root - INFO - DB loaded
+26/07/2019 19:58:27 root - INFO - Loading matching results for category TITLE with query bullet
+26/07/2019 19:58:27 root - INFO - Results loaded.
+26/07/2019 19:58:27 root - INFO -                        TITLE        AUTHOR  ...   YEAR (READ)  STATE
+0  The bullet journal method  Ryder Caroll  ...        2019.0   READ
+
+[1 rows x 6 columns]

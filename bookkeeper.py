@@ -44,37 +44,27 @@ MOVE = "move"
 
 SHAPE_ROW_COUNT_INDEX = 0
 
-def test(arg):
-    print("Hello " + arg)
-
 # Find the list of partial matches, with an optional category given.
 def find(query, category=TITLE):
+    logging.info("Find method launched")
     db = open_db()
     # TODO: Ensure category matches one of the available ones.
 
 
     # Matches all entries in category.
     # case=False makes matches case insensitive.
+    logging.info("Loading matching results for category " + category + " with query " + query)
     results = db.loc[db[category].str.contains(query, case=False)]
-    print(db.filter(like=query))
+    logging.info("Results loaded.")
+    logging.info(results)
+    
     return(results)
 
 
-def map_category(category):
-    if (category == TITLE):
-        return 0
-    elif (category == AUTHOR):
-        return 1
-    elif (category == INFO):
-        return 2
-    else:
-        print(category + " not supported. Will match title instead.")
-        return 0
-
 def add(state, title, author, info, rating=5):
-
-
+    logging.info("Add method launched")
     db = open_db()
+
     # Add entry to db if not already existing
 
     # When writing, simply add line with all content to CSV
@@ -86,17 +76,23 @@ def add(state, title, author, info, rating=5):
 
     # Matches all entries in category.
     # lower() works, would rather use casefold, though does not work.
+    logging.info("Finding matches for title " + title + " and author " + author)
     matches = db[(db[TITLE].str.lower() == title.lower())&(db[AUTHOR].str.lower() == author.lower())]
+    logging.info("Matches loaded.")
+    logging.info(matches)
     match_count = matches.shape[SHAPE_ROW_COUNT_INDEX]
 
     if (match_count <= 0):
-        print("No matches found.")
-        print("Proceed to add content to Database")
+        logging.info("No matches found.")
+        logging.info("Proceed to add content to Database")
         db_line = [title, author, info, rating, "", state]
-        print("Line content is " + str(db_line))
+        logging.info("Line content is " + str(db_line))
         add_to_db(db_line)
+        logging.info("Content added to Database")
         print("Content added to Database")
     else:
+        logging.info("Matching entries found")
+        logging.info("Not proceeding to add content")
         print("Matching entries found")
         print("Not proceeding to add content")
         print("Matches found:")
@@ -107,14 +103,20 @@ def add(state, title, author, info, rating=5):
 # Currently simply uses the size and content of the provided array
 # and adds it to the CSV file.
 def add_to_db(content):
+    logging.info("Begin writing to Database.")
+    logging.info("Content to write:")
+    logging.info(content)
     # TODO: Refactor to using dictionaries to avoid confusion with database in the future
     with open(DATABASE_FILE, 'a') as f:
         writer = csv.writer(f)
         writer.writerow(content)
+    logging.info("Writing to Database successfull.")
 
 def open_db():
     # TODO: Find way to keep changes in sync without re-loading file every time.
+    logging.info("Begin loading Database.")
     database = pandas.read_csv(DATABASE_FILE)
+    logging.info("Loading Database successfull.")
     # print(database)        
     return database
 
