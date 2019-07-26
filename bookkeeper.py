@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
 import csv
 import datetime
@@ -31,20 +31,17 @@ MOVE = "move"
 def test(arg):
     print("Hello " + arg)
 
-# Find by title in any of the lists of files
-def find(query, category="TITLE"):
+# Find the list of partial matches, with an optional category given.
+def find(query, category=TITLE):
     db = open_db()
+    # TODO: Ensure category matches one of the available ones.
 
-    print(db.loc[db[category].str.contains(query, case=False)])
 
-
-    # query = query.lower() # make lowercase for better comparison
-    # category = category.lower()
-    # result = []
-    # result.extend(find_in_file(READ_FILE, query, category))
-    # result.extend(find_in_file(READING_FILE, query, category))
-    # result.extend(find_in_file(TO_READ_FILE, query, category))
-    # return(result)
+    # Matches all entries in category.
+    # case=False makes matches case insensitive.
+    results = db.loc[db[category].str.contains(query, case=False)]
+    print(db.filter(like=query))
+    return(results)
 
 
 def map_category(category):
@@ -58,51 +55,25 @@ def map_category(category):
         print(category + " not supported. Will match title instead.")
         return 0
 
-def find_in_file(file, query, category):
-    result = []
+def add(state, title, author, info, rating=5):
 
-    array_index = map_category(category)
+    db = open_db()
+    # Add entry to db if not already existing
 
-    with open(file) as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        line_count = 0
-        for row in csv_reader:
-            if (line_count > 0):
-                entry_content = row[array_index].lower()
-                # TODO: Find way to match more widely then just total string.
-                if (entry_content == query):
-                    result_row = row[:]
-                    result_row.append(file)
-                    result_row.append(line_count)
-                    result.append(result_row)
-            line_count += 1
-    return(result)
+    # When writing, simply add line with all content to CSV
 
-def add(file, title, author, info, rating=5):
-    found = False
-    existing_titles = find(title)
-    if (find(title) != []):
-        for entry in find(title):
-            if (entry[1] == author):
-                found = True
+    # Check for matching (case insensitive) 
+    # - title
+    # - author
+    # Info and rating do not matter.
 
-    if (found):
-        print("Entry already exists.")
-    else:
-        if (file == READ):
-            print("Add to read")
-            with open(READ_FILE, 'a') as f:
-                f.write(title+","+author+","+info+","+str(datetime.datetime.now().year)+"\n")
-        elif (file == READING):
-            print("Add to reading")
-            with open(READING_FILE, 'a') as f:
-                f.write(title+","+author+","+info+"\n")
-        elif (file == TO_READ):
-            print("Add to to_read")
-            with open(TO_READ_FILE, 'a') as f:
-                f.write(title+","+author+","+info+","+rating+"\n")
-        else:
-            print(file + " not supported as list.")
+    # Matches all entries in category.
+    # case=False makes matches case insensitive.
+    results = db.loc[db[TITLE].str.upper().equals(title)]
+    print(results)
+    return(results)
+
+
 
 def open_db():
     # TODO: Find way to keep changes in sync without re-loading file every time.
