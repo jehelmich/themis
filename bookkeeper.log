@@ -1,0 +1,10 @@
+26/07/2019 19:53:26 root - INFO - Bookkeeper started.
+26/07/2019 19:53:26 root - INFO - Number of arguments: 6
+26/07/2019 19:53:26 root - INFO - Arguments are: 
+26/07/2019 19:53:26 root - INFO - ['./bookkeeper.py', 'add', 'READ', 'The bullet journal Method', 'Ryder caroll', 'Test']
+26/07/2019 19:53:26 root - INFO - Selected method ADD
+26/07/2019 19:53:38 root - INFO - Bookkeeper started.
+26/07/2019 19:53:38 root - INFO - Number of arguments: 6
+26/07/2019 19:53:38 root - INFO - Arguments are: 
+26/07/2019 19:53:38 root - INFO - ['./bookkeeper.py', 'add', 'READ', 'The bullet journal Method', 'Ryder caroll', 'Test']
+26/07/2019 19:53:38 root - INFO - Selected method ADD

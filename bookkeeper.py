@@ -1,8 +1,22 @@
 #!/usr/bin/env python3
+
+# Imports for core functionality
 import sys
 import csv
 import datetime
 import pandas
+
+# Imports for logging
+import logging
+
+# Config for logging
+logging.basicConfig(
+    filename='bookkeeper.log',
+    filemode='a',
+    format='%(asctime)s %(name)s - %(levelname)s - %(message)s', 
+    datefmt='%d/%m/%Y %H:%M:%S')
+# Set Logging level to debug. Default is warning
+logging.getLogger().setLevel(logging.DEBUG)
 
 # Could run this project under the title Themis, titaness of divine law and order
 # Symbol is Bronze sword
@@ -105,9 +119,15 @@ def open_db():
     return database
 
 if __name__ == '__main__':
+    logging.info("Bookkeeper started.")
+    logging.info("Number of arguments: " + str(len(sys.argv)))
+    logging.info("Arguments are: ")
+    logging.info(sys.argv)
+
     if (len(sys.argv) > 1):
         method = sys.argv[1]
         if (method == FIND):
+            logging.info("Selected method FIND")
             if (len(sys.argv) == 2):
                 print("No title for search specified.")
             elif (len(sys.argv) == 3):
@@ -118,6 +138,7 @@ if __name__ == '__main__':
                 print(find(sys.argv[2], sys.argv[3]))
             # initiate find method
         elif (method == ADD):
+            logging.info("Selected method ADD")
             print("Add method.")
             if (len(sys.argv) < 6):
                 print("Not enough parameters specified. Need file, title, author, info (,rating)")
@@ -127,15 +148,16 @@ if __name__ == '__main__':
                 add(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
             # initiate add method
         elif (method == MOVE):
+            logging.info("Selected method MOVE")
             print("Move method")
             # initiate move method
-        elif (method == "open_db"):
-            print("Open Database")
-            open_db()
         else:
             # No method matched. Issue response of failure.
+            logging.info("Method " + method + " did not match.")
+            logging.info("Issue user response.")
             print("Method name did not match any entry.")
             print("Please refer to readme for the correct syntax.")
     
     else:
+        logging.info("No method parameter specified.")
         print("Please specify a method name.")
